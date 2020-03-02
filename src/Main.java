@@ -6,6 +6,7 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
         int methods = sc.nextInt();
+        String outputs = "";
 
         //Method Count
         for(int i = 0; i < methods; i++) {
@@ -13,40 +14,48 @@ public class Main {
             int instruction = sc.nextInt();
             String type = sc.next();
 
+            outputs = outputs + instruction + " " + type + "\n";
+
             //Inputs go into these 3 integer arrays
-            int startTime[] = new int[instruction];
-            int duration[] = new int[instruction];
-            int priority[] = new int[instruction];
+            //at = Arrival Time, bt = Burst Time, nl = Nice Level
+            int at[] = new int[instruction];
+            int bt[] = new int[instruction];
+            int nl[] = new int[instruction];
 
             //Take in the inputs by placing them into the arrays
             for(int j = 0; i < instruction; i++) {
 
-                startTime[i] = sc.nextInt();
-                duration[i] = sc.nextInt();
-                priority[i] = sc.nextInt();
+                at[i] = sc.nextInt();
+                bt[i] = sc.nextInt();
+                nl[i] = sc.nextInt();
 
             }
 
             //Throw into the right method type
             if(type.equals("FCFS")) {
 
-
+                Fcfs f = new Fcfs(at,bt,nl);
+                String result = f.solveAll();
 
             } else if(type.equals("SJF")) {
 
-
+                Sjf sjf = new Sjf(at,bt,nl);
+                String result = sjf.solveAll();
 
             } else if(type.equals("SRTF")) {
 
-
+                Srtf srtf = new Srtf(at,bt,nl);
+                String result = srtf.solveAll();
 
             } else if(type.equals("P")) {
 
-
+                PrioritySchedule ps = new PrioritySchedule(at,bt,nl);
+                String result = ps.solveAll();
 
             } else if(type.equals("RR")) {
 
-
+                RoundRobin rr = new RoundRobin(at,bt,nl);
+                String result = rr.solveAll();
 
             }
 
@@ -54,29 +63,13 @@ public class Main {
 
     }
 
-    public static String fcfsFunc() {
 
-        return null;
-    }
 
-    public static String sjfFunc() {
 
-        return null;
-    }
 
-    public static String srtfFunc() {
 
-        return null;
-    }
 
-    public static String pFunc() {
 
-        return null;
-    }
 
-    public static String rrFunc() {
-
-        return null;
-    }
 
 }
