@@ -13,29 +13,40 @@ public class Main {
             int instruction = sc.nextInt();
             String type = sc.next();
 
+            //Inputs go into these 3 integer arrays
+            int startTime[] = new int[instruction];
+            int duration[] = new int[instruction];
+            int priority[] = new int[instruction];
+
+            //Take in the inputs by placing them into the arrays
             for(int j = 0; i < instruction; i++) {
 
-                if(type.equals("FCFS")) {
+                startTime[i] = sc.nextInt();
+                duration[i] = sc.nextInt();
+                priority[i] = sc.nextInt();
+
+            }
+
+            //Throw into the right method type
+            if(type.equals("FCFS")) {
 
 
 
-                } else if(type.equals("SJF")) {
+            } else if(type.equals("SJF")) {
 
 
 
-                } else if(type.equals("SRTF")) {
+            } else if(type.equals("SRTF")) {
 
 
 
-                } else if(type.equals("P")) {
+            } else if(type.equals("P")) {
 
 
 
-                } else if(type.equals("RR")) {
+            } else if(type.equals("RR")) {
 
 
-
-                }
 
             }
 
