@@ -2,9 +2,9 @@ import java.util.Scanner;
 
 public class Fcfs {
 
-    private static int at[];
-    private static int bt[];
-    private static int nl[];
+    private int at[];
+    private int bt[];
+    private int nl[];
 
     //a = Arrival Time , b = Burst Time , c = Nice Level , length of any of the arrays is the # of processors
     public Fcfs(int a[], int b[], int c[]) {
@@ -15,7 +15,7 @@ public class Fcfs {
 
     //METHODS FOR INSTRUCTIONS
     //a = Arrival Time , b = Burst Time , c = Nice Level , length of any of the arrays is the # of processors
-    public static String fcfsFunc(int a[], int b[], int c[]) {
+    public String fcfsFunc(int a[], int b[], int c[]) {
 
         //Output Arrangement
         int out[] = new int[a.length];
@@ -56,7 +56,7 @@ public class Fcfs {
         return outputText;
     }
 
-    public static String solveAll() {
+    public String solveAll() {
         String output = fcfsFunc(at,bt,nl);
 
         return null;
