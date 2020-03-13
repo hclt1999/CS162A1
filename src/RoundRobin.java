@@ -1,8 +1,8 @@
 public class RoundRobin {
 
-    private static int at[];
-    private static int bt[];
-    private static int nl[];
+    private int at[];
+    private int bt[];
+    private int nl[];
 
     //a = Arrival Time , b = Burst Time , c = Nice Level , length of any of the arrays is the # of processors
     public RoundRobin(int a[], int b[], int c[]) {
@@ -11,7 +11,7 @@ public class RoundRobin {
         nl = c;
     }
 
-    public static String rrFunc(int a[], int b[], int c[]) {
+    public String rrFunc(int a[], int b[], int c[]) {
 
         //Output Arrangement
         int out[] = new int[a.length];
@@ -31,7 +31,7 @@ public class RoundRobin {
         return outputText;
     }
 
-    public static String solveAll() {
+    public String solveAll() {
         String output = rrFunc(at,bt,nl);
         return null;
     }
