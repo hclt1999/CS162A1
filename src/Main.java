@@ -5,16 +5,21 @@ public class Main {
     public static void main(String args[]) {
 
         Scanner sc = new Scanner(System.in);
-        int methods = sc.nextInt();
+        int methods = sc.nextInt(); //Number of Test Cases
         String outputs = "";
 
         //Method Count
         for(int i = 0; i < methods; i++) {
 
-            int instruction = sc.nextInt();
-            String type = sc.next();
+            int instruction = sc.nextInt(); //Number of Processes
+            String type = sc.next(); //Algorithm Type
 
             outputs = outputs + instruction + " " + type + "\n";
+            
+            int Q=0;
+            if(type.equals("RR")) {
+                Q = sc.nextInt();
+            }
 
             //Inputs go into these 3 integer arrays
             //at = Arrival Time, bt = Burst Time, nl = Nice Level
@@ -54,7 +59,7 @@ public class Main {
 
             } else if(type.equals("RR")) {
 
-                RoundRobin rr = new RoundRobin(at,bt,nl);
+                RoundRobin rr = new RoundRobin(at,bt,nl,Q);
                 String result = rr.solveAll();
 
             }
