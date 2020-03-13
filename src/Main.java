@@ -46,6 +46,7 @@ public class Main {
 
                 Sjf sjf = new Sjf(at,bt,nl);
                 String result = sjf.solveAll();
+                System.out.println(result);
 
             } else if(type.equals("SRTF")) {
 
@@ -67,14 +68,6 @@ public class Main {
         }
 
     }
-
-
-
-
-
-
-
-
 
 
 }
