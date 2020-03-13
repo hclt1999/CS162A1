@@ -41,6 +41,7 @@ public class Main {
 
                 Fcfs f = new Fcfs(at,bt,nl);
                 String result = f.solveAll();
+                System.out.println(result);
 
             } else if(type.equals("SJF")) {
 
