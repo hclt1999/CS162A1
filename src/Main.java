@@ -28,11 +28,11 @@ public class Main {
             int nl[] = new int[instruction];
 
             //Take in the inputs by placing them into the arrays
-            for(int j = 0; i < instruction; i++) {
+            for(int j = 0; j < instruction; j++) {
 
-                at[i] = sc.nextInt();
-                bt[i] = sc.nextInt();
-                nl[i] = sc.nextInt();
+                at[j] = sc.nextInt();
+                bt[j] = sc.nextInt();
+                nl[j] = sc.nextInt();
 
             }
 
@@ -53,6 +53,7 @@ public class Main {
 
                 Srtf srtf = new Srtf(at,bt,nl);
                 String result = srtf.solveAll();
+                System.out.println(result);
 
             } else if(type.equals("P")) {
 

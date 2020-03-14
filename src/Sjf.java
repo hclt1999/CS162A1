@@ -28,6 +28,7 @@ public class Sjf {
         			validProcesses.put(b[i], i);
         		}
         	}
+
         	if (!validProcesses.isEmpty()) {
 	        	int minIndex = minBT(validProcesses); //gets the index of the minimum BT inside validProcesses
 	        	out.add(minIndex); //adds it to done processes
