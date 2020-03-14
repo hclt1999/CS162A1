@@ -20,6 +20,12 @@ public class Sjf {
         String outputText = "";
         
         //Output Arrangement
+        int timeElapsed=0;
+        int CPUbt=0;
+        int outWait[] = new int[a.length]; //stores when the process starts to run
+        int outTurn[] = new int[a.length]; //stores when the process ends
+        int outResponse[] = new int[a.length]; //stores when it first runs
+        
         ArrayList<Integer> out = new ArrayList<>(); //stores all done processes
         for (int sec=0; out.size()!=a.length; sec++) { //until all processes are finished
         	HashMap<Integer, Integer> validProcesses = new HashMap<>(); //all unfinished processes that have already entered the system
@@ -31,21 +37,64 @@ public class Sjf {
 
         	if (!validProcesses.isEmpty()) {
 	        	int minIndex = minBT(validProcesses); //gets the index of the minimum BT inside validProcesses
+	        	outWait[minIndex] = sec;
+	        	outTurn[minIndex] = sec + b[minIndex];
+	        	outResponse[minIndex] = sec;
 	        	out.add(minIndex); //adds it to done processes
 	        	int outputIndex = minIndex + 1; 
 	        	outputText = outputText + sec + " " + outputIndex + " " + b[minIndex] + "X\n";
 	        	sec = sec + b[minIndex] - 1; //changes seconds
+	        	CPUbt = CPUbt + b[minIndex];
+        	}
+        	if (out.size()==a.length) {
+        		timeElapsed=sec+1; //plus 1 because it counts the last 1ns the last process ran
         	}
         }
 
+        //Output Total Time Elapsed
+        outputText = outputText + "Total time elapsed: " + timeElapsed + "ns\n";
+        
+        //Output Total CPU Burst Time
+        outputText = outputText + "Total CPU burst time: " + CPUbt + "ns\n";
+        
+        //Output CPU Utilization
+        int u = (CPUbt/timeElapsed)*100;
+        outputText = outputText + "CPU Utilization: " + u + "%\n";
+        
+        //Output Throughput
+        double numProcess = a.length;
+        double tp = numProcess/timeElapsed;
+        outputText = outputText + "Throughput: " + tp + " processes/ns\n";
+        
         //Output Waiting Times
-        int outWait[] = new int[a.length];
+        outputText = outputText + "Waiting Times: \n";
+        double sumWait = 0;
+        for (int i=0; i<outWait.length; i++) {
+        	int waitTime = outWait[i]-a[i];
+        	sumWait = sumWait + waitTime;
+        	outputText = outputText + " Process " + i + ": " + waitTime +  "ns\n";
+        }
+        outputText = outputText + "Average waiting time: " + sumWait/outWait.length +  "ns\n";
 
         //Output Turnaround Times
-        int outTurn[] = new int[a.length];
+        outputText = outputText + "Turnaround Times: \n";
+        double sumTurn = 0;
+        for (int i=0; i<outTurn.length; i++) {
+        	int turnTime = outTurn[i]-a[i];
+        	sumTurn = sumTurn + turnTime;
+        	outputText = outputText + " Process " + i + ": " + turnTime +  "ns\n";
+        }
+        outputText = outputText + "Average turnaround time: " + sumTurn/outTurn.length +  "ns\n";
 
         //Output Response Times
-        int outResponse[] = new int[a.length];
+        outputText = outputText + "Response Times: \n";
+        double sumRes = 0;
+        for (int i=0; i<outResponse.length; i++) {
+        	int resTime = outResponse[i]-a[i];
+        	sumRes = sumRes + resTime;
+        	outputText = outputText + " Process " + i + ": " + resTime +  "ns\n";
+        }
+        outputText = outputText + "Average response time: " + sumRes/outResponse.length +  "ns\n";
 
         return outputText;
     }
