@@ -59,6 +59,7 @@ public class Main {
 
                 PrioritySchedule ps = new PrioritySchedule(at,bt,nl);
                 String result = ps.solveAll();
+                System.out.println(result);
 
             } else if(type.equals("RR")) {
 
