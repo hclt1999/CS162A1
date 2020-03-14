@@ -7,7 +7,7 @@ public class RoundRobin {
     private int bt[];
     private int nl[];
     private int Q;
-    private int indexes[];
+    private int indices[];
     private Fcfs fcfs;
 
     //a = Arrival Time , b = Burst Time , c = Nice Level , length of any of the arrays is the # of processors
@@ -16,10 +16,10 @@ public class RoundRobin {
         bt = b;
         nl = c;
         Q = q;
-        indexes = new int[at.length];
+        indices = new int[at.length];
         //Make index arrays
         for(int i = 1; i <= at.length; i++) {
-            indexes[i-1] = i;
+            indices[i-1] = i;
         }
         fcfs = new Fcfs(at,bt,nl);
     }
@@ -42,16 +42,13 @@ public class RoundRobin {
         int outResponse[] = new int[at.length];
 
         //Sort by arrival time
-        fcfs.sortOrderByArrival();
-        at = fcfs.getAt();
-        bt = fcfs.getBt();
-        nl = fcfs.getNl();
-        indexes = fcfs.getIndexes();
+        sortOrderByArrival();
         int currentSecondsCount = 0;
         int i = 0;
         int currentProcessIndex = 0;
-        boolean hasStartedProcess = false;
-        boolean isCurrentProcessDone = false;
+        boolean hasProcessStarted = false;
+        boolean isCurrentProcessDone = true;
+        boolean isOldProcess = false;
 
         ArrayList<Integer> indexList = new ArrayList<>();
         ArrayList<Integer> doneList = new ArrayList<>();
@@ -59,68 +56,110 @@ public class RoundRobin {
 
         for(int seconds = 0; !(doneList.size()==bt.length); seconds++) {
 
-            if(at[i] >= seconds || (currentSecondsCount == Q || bt[i] == 0) || !hasStartedProcess) {
+            //If the current arrival time has not been reached
 
-                if(!hasStartedProcess) { //Hasn't started the process
+            if(hasProcessStarted && currentProcessIndex<at.length){
 
-                    outputText = outputText + seconds + " ";
-                    if(at[i] >= seconds && i<bt.length) {
-                        currentProcessIndex = i;
-                    } else if(!indexList.isEmpty()){
-                        currentProcessIndex = indexList.get(0);
-                    }
-                    hasStartedProcess = true;
+                //CHECK IF PROCESS IS DONE
+                if(bt[currentProcessIndex] == 0) {
 
-                }
+                    outputText = outputText + " " + indices[currentProcessIndex] + " " + currentSecondsCount + "X\n";
 
-                if(currentSecondsCount == Q || bt[currentProcessIndex] == 0) { //IF REACH THE QUANTUM TIME OR NO MORE BURST TIME LEFT
-
-                    if(bt[currentProcessIndex] == 0) {
-
-                        outputText = outputText + indexes[currentProcessIndex] + " " + currentSecondsCount + "X\n";
-
-                        currentSecondsCount = 0;
-
-                        doneList.add(currentProcessIndex);
-                        hasStartedProcess = false;
+                    currentSecondsCount = 0;
+                    isCurrentProcessDone = true;
+                    doneList.add(currentProcessIndex);
+                    if(!isOldProcess) {
                         i++;
+                        currentProcessIndex = i;
+                    }
 
-                    } else if(currentSecondsCount == Q && !(bt[currentProcessIndex]==0)){
+                } else if(currentSecondsCount == Q && !(bt[currentProcessIndex] == 0)) { //PROCESS IS NOT YET DONE BUT REACHED QUANTUM TIME
 
-                        outputText = outputText + indexes[currentProcessIndex] + " " + currentSecondsCount + "\n";
+                    outputText = outputText + " " + indices[i] + " " + currentSecondsCount + "\n";
 
-                        currentSecondsCount = 0;
-
-                        hasStartedProcess = false;
-                        indexList.add(currentProcessIndex);
-
+                    currentSecondsCount = 0;
+                    indexList.add(currentProcessIndex);
+                    isCurrentProcessDone = true;
+                    if(!isOldProcess) {
+                        i++;
+                        currentProcessIndex = i;
                     }
 
                 }
 
-            } else {
-
-                if(hasStartedProcess) {
-
-                    currentSecondsCount++;
+                if(!isCurrentProcessDone) {
                     bt[currentProcessIndex]--;
+                    currentSecondsCount++;
+                }
+
+            }
+
+            if(isCurrentProcessDone && i<at.length && currentProcessIndex<at.length) {
+
+                outputText = outputText + seconds;
+
+                if(seconds>=at[i]) {
+
+                    hasProcessStarted = true;
+                    currentProcessIndex = i;
+                    isOldProcess = false;
+
+                } else if(!indexList.isEmpty()){
+                    currentProcessIndex = indexList.get(0);
+                    indexList.remove(0);
+                    hasProcessStarted = true;
+                    isOldProcess = true;
+                }
+
+                isCurrentProcessDone = false;
+                seconds--;
+            }
+
+
+        }
+
+        return outputText;
+
+    }
+
+    public String solveAll() {
+        String output = rrFunc();
+        return output;
+    }
+
+    public void sortOrderByArrival() {
+        //Sort by arrival time
+        for(int i = 0; i < at.length - 1; i ++) {
+
+            for(int j = 0; j < at.length-i-1; j++) {
+
+                if(at[j] > at[j+1]) {
+
+                    //Sorts arrival time
+                    int temp = at[j];
+                    at[j] = at[j+1];
+                    at[j+1] = temp;
+
+                    //Sorts burst time
+                    temp = bt[j];
+                    bt[j] = bt[j+1];
+                    bt[j+1] = temp;
+
+                    //Sorts nice level
+                    temp = nl[j];
+                    nl[j] = nl[j+1];
+                    nl[j+1] = temp;
+
+                    //Sorts the indexes
+                    temp = indices[j];
+                    indices[j] = indices[j+1];
+                    indices[j+1] = temp;
 
                 }
 
             }
 
         }
-
-        for(int j = 0; j<bt.length;j++) {
-            System.out.println(bt[j]);
-        }
-
-        return outputText;
-    }
-
-    public String solveAll() {
-        String output = rrFunc();
-        return output;
     }
 
 }
