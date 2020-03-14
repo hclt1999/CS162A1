@@ -107,9 +107,7 @@ public class Fcfs {
         String output = "";
         for(int i = 0; i < a.length; i++) {
             output = output + a[i] + " " + index[i] + " " + b[i] + "X";
-            if(i < a.length-1) {
-                output = output + "\n";
-            }
+            output = output + "\n";
         }
         return output;
     }

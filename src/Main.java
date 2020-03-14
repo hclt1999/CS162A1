@@ -41,35 +41,36 @@ public class Main {
 
                 Fcfs f = new Fcfs(at,bt,nl);
                 String result = f.solveAll();
-                System.out.println(result);
+                outputs = outputs + result;
 
             } else if(type.equals("SJF")) {
 
                 Sjf sjf = new Sjf(at,bt,nl);
                 String result = sjf.solveAll();
-                System.out.println(result);
+                outputs = outputs + result;
 
             } else if(type.equals("SRTF")) {
 
                 Srtf srtf = new Srtf(at,bt,nl);
                 String result = srtf.solveAll();
-                System.out.println(result);
+                outputs = outputs + result;
 
             } else if(type.equals("P")) {
 
                 PrioritySchedule ps = new PrioritySchedule(at,bt,nl);
                 String result = ps.solveAll();
-                System.out.println(result);
+                outputs = outputs + result;
 
             } else if(type.equals("RR")) {
 
                 RoundRobin rr = new RoundRobin(at,bt,nl,Q);
                 String result = rr.solveAll();
+                outputs = outputs + result;
 
             }
 
         }
-
+        System.out.println(outputs);
     }
 
 

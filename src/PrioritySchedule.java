@@ -37,7 +37,7 @@ public class PrioritySchedule {
         	}
         	int minIndex = minNL(validProcesses);
         	
-        	//if there's no new process with a shorter BT
+        	//if there's no new process with a lower NL
         	if (currProcess==minIndex && !validProcesses.isEmpty()) {
         		//add current process' running time, subtract remaining BT needed to finish
         		currProcessRunningTime++;
