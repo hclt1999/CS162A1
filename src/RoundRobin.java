@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RoundRobin {
 
@@ -25,6 +26,9 @@ public class RoundRobin {
 
     public String rrFunc() {
 
+        //Output String
+        String outputText = "";
+
         //Output Arrangement
         int out[] = new int[at.length];
 
@@ -45,55 +49,71 @@ public class RoundRobin {
         indexes = fcfs.getIndexes();
         int currentSecondsCount = 0;
         int i = 0;
-        int currentProcessIndex = i;
+        int currentProcessIndex = 0;
         boolean hasStartedProcess = false;
         boolean isCurrentProcessDone = false;
 
         ArrayList<Integer> indexList = new ArrayList<>();
+        ArrayList<Integer> doneList = new ArrayList<>();
+        HashMap<Integer, Integer> doneProcess = new HashMap<>(); //all unfinished processes that have already entered the system
 
-        for(int seconds = 0; seconds<10000000; seconds++) {
+        for(int seconds = 0; !(doneList.size()==bt.length); seconds++) {
 
-            if(seconds == at[i] || !hasStartedProcess || currentSecondsCount == Q || isCurrentProcessDone) {
+            if(at[i] >= seconds || (currentSecondsCount == Q || bt[i] == 0) || !hasStartedProcess) {
 
-                if(currentSecondsCount == Q && !isCurrentProcessDone) {
-                    indexList.add(i);
-                    i++;
-                    currentSecondsCount = 0;
-                } else if(isCurrentProcessDone && !hasStartedProcess) {
+                if(!hasStartedProcess) { //Hasn't started the process
 
-                    i++;
-                    currentSecondsCount = 0;
-
-                } else if(!isCurrentProcessDone && !hasStartedProcess) {
-
+                    outputText = outputText + seconds + " ";
+                    if(at[i] >= seconds && i<bt.length) {
+                        currentProcessIndex = i;
+                    } else if(!indexList.isEmpty()){
+                        currentProcessIndex = indexList.get(0);
+                    }
                     hasStartedProcess = true;
 
                 }
-            }
 
-            if(hasStartedProcess && currentSecondsCount != Q) {
+                if(currentSecondsCount == Q || bt[currentProcessIndex] == 0) { //IF REACH THE QUANTUM TIME OR NO MORE BURST TIME LEFT
 
+                    if(bt[currentProcessIndex] == 0) {
 
+                        outputText = outputText + indexes[currentProcessIndex] + " " + currentSecondsCount + "X\n";
+
+                        currentSecondsCount = 0;
+
+                        doneList.add(currentProcessIndex);
+                        hasStartedProcess = false;
+                        i++;
+
+                    } else if(currentSecondsCount == Q && !(bt[currentProcessIndex]==0)){
+
+                        outputText = outputText + indexes[currentProcessIndex] + " " + currentSecondsCount + "\n";
+
+                        currentSecondsCount = 0;
+
+                        hasStartedProcess = false;
+                        indexList.add(currentProcessIndex);
+
+                    }
+
+                }
 
             } else {
 
-                currentSecondsCount++;
+                if(hasStartedProcess) {
 
-            }
-
-            //WAIT TIME COUNTING
-            if(!indexList.isEmpty()) {
-                for (int j = 0; j < indexList.size(); j++) {
-
-
+                    currentSecondsCount++;
+                    bt[currentProcessIndex]--;
 
                 }
+
             }
 
         }
 
-        //Output String
-        String outputText = "";
+        for(int j = 0; j<bt.length;j++) {
+            System.out.println(bt[j]);
+        }
 
         return outputText;
     }
