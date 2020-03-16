@@ -54,6 +54,7 @@ public class RoundRobin {
         boolean hasProcessStarted = false;
         boolean isCurrentProcessDone = true;
         boolean isOldProcess = false;
+        boolean wasChecked = false;
         ArrayList<Integer> indexList = new ArrayList<>(); //Unfinished Processes
         ArrayList<Integer> waitList = new ArrayList<>(); //Waiting Processes
         ArrayList<Integer> doneList = new ArrayList<>(); //Finished Processes
@@ -84,7 +85,7 @@ public class RoundRobin {
                     hasProcessArrived[j] = true;
                 }
                 if(hasProcessArrived[j] && !isProcessCalled[j]) {
-                    outResponse[j]++;
+                    //outResponse[j]++;
                     if(!waitList.contains(j)) {
                         waitList.add(j);
                     }
@@ -97,26 +98,21 @@ public class RoundRobin {
                 //CHECK IF PROCESS IS DONE
                 if(bt[currentProcessIndex] == 0) {
                     outputText = outputText + " " + indices[currentProcessIndex] + " " + currentSecondsCount + "X\n";
+
                     totalTimeElapsed = (double) seconds;
                     currentSecondsCount = 0;
                     isCurrentProcessDone = true;
+                    hasProcessStarted = false;
                     doneList.add(currentProcessIndex); //Index of the process is added into a list of finished processes
-                    if(!isOldProcess) {
-                        i++;
-                        currentProcessIndex = i;
-                    }
 
                 } else if(currentSecondsCount == Q && !(bt[currentProcessIndex] == 0)) { //PROCESS IS NOT YET DONE BUT REACHED QUANTUM TIME
 
-                    outputText = outputText + " " + indices[i] + " " + currentSecondsCount + "\n";
+                    outputText = outputText + " " + indices[currentProcessIndex] + " " + currentSecondsCount + "\n";
 
+                    hasProcessStarted = false;
                     currentSecondsCount = 0; //Reset count to 0
                     isCurrentProcessDone = true;
                     indexList.add(currentProcessIndex); //Index of the process is added into a list of unfinished processes
-                    if(!isOldProcess) {
-                        i++;
-                        currentProcessIndex = i;
-                    }
 
                 }
 
@@ -140,36 +136,54 @@ public class RoundRobin {
                     //Check for response
                 }
 
+                if(isCurrentProcessDone) {
+
+                    if(!isOldProcess) {
+                        i++;
+                        wasChecked = false;
+                    }
+
+                }
+
             }
 
-            if(isCurrentProcessDone && i<at.length && currentProcessIndex<at.length) { //If the process is done, reroute the index to the next process needed to be done
-
-                if(seconds>=at[i]) { //Regular arrival time checking compared to seconds
+            if(isCurrentProcessDone) { //If the process is done, reroute the index to the next process needed to be done
+                if(i<at.length) {
+                    if (seconds >= at[i]) { //Regular arrival time checking compared to seconds
+                        outputText = outputText + seconds;
+                        for (int j = 0; j < waitList.size(); j++) {
+                            if (waitList.get(j) == i) {
+                                waitList.remove(j);
+                            }
+                        }
+                        outResponse[i] = seconds - at[i];
+                        System.out.println("CURRENT TIME: " + seconds);
+                        isProcessCalled[i] = true;
+                        hasProcessStarted = true;
+                        currentProcessIndex = i;
+                        isOldProcess = false;
+                        isCurrentProcessDone = false;
+                        seconds--;
+                        wasChecked = true;
+                    }
+                }
+                if(!indexList.isEmpty() && !wasChecked){ //If no process arrival time has met the current count, check the old processes
                     outputText = outputText + seconds;
                     for(int j = 0; j<waitList.size(); j++) {
                         if(waitList.get(j) == i) {
                             waitList.remove(j);
                         }
                     }
-                    isProcessCalled[i] = true;
-                    hasProcessStarted = true;
-                    currentProcessIndex = i;
-                    isOldProcess = false;
-                    isCurrentProcessDone = false;
-                    seconds--;
-
-                } else if(!indexList.isEmpty()){ //If no process arrival time has met the current count, check the old processes
-                    outputText = outputText + seconds;
                     currentProcessIndex = indexList.get(0);
                     indexList.remove(0);
                     hasProcessStarted = true;
                     isOldProcess = true;
                     isCurrentProcessDone = false;
                     seconds--;
+                    wasChecked = false;
                 }
 
             }
-
 
         }
 

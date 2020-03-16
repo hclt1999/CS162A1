@@ -32,12 +32,12 @@ public class Fcfs {
 
         outTurn = new int[at.length];
         for (int j=0; j<outWait.length; j++) { //initialize all wait times to 0
-            outTurn[j]=-1;
+            outTurn[j]=0;
         }
 
         outWait = new int[at.length];
         for (int j=0; j<outWait.length; j++) { //initialize all wait times to 0
-            outWait[j]=-1;
+            outWait[j]=0;
         }
 
         dupBt = new int[bt.length];
@@ -85,15 +85,6 @@ public class Fcfs {
 
         for(int seconds = 0; !(doneList.size()==at.length); seconds++) {
 
-            for(int j = 0; j<at.length; j++) {
-                if(seconds == at[j] && seconds >= 1) {
-                    hasProcessArrived[j] = true;
-                }
-                if(hasProcessArrived[j] && !isProcessCalled[j]) {
-                    outResponse[j]++;
-                }
-            }
-
             //If the current arrival time has not been reached
 
             if(hasProcessStarted && i<at.length){
@@ -123,6 +114,7 @@ public class Fcfs {
                     isProcessCalled[i] = true;
                     hasProcessStarted = true;
                     isCurrentProcessDone = false;
+                    outResponse[i] = seconds - at[i];
                     seconds--;
                 }
             }
@@ -138,6 +130,12 @@ public class Fcfs {
         outputText = outputText + "Throughput: " + throughputCount + " processes/ns\n";
 
         sortOrderByIndices();
+
+        for(int j = 0; j<outResponse.length; j++) {
+            if(outResponse[j] == -1) {
+                outResponse[j]++;
+            }
+        }
 
         outWait = outResponse;
         //Out Turnaround time
