@@ -157,7 +157,6 @@ public class RoundRobin {
                             }
                         }
                         outResponse[i] = seconds - at[i];
-                        System.out.println("CURRENT TIME: " + seconds);
                         isProcessCalled[i] = true;
                         hasProcessStarted = true;
                         currentProcessIndex = i;
@@ -227,7 +226,7 @@ public class RoundRobin {
             outputText = outputText + " Process " + j + ": " + outResponse[j-1] + "ns\n";
             aveResTime += outResponse[j-1];
         }
-        outputText = outputText + "Average reponse time: " + (aveResTime/outResponse.length) + " ns";
+        outputText = outputText + "Average reponse time: " + (aveResTime/outResponse.length) + " ns\n";
 
         return outputText;
 
