@@ -163,12 +163,12 @@ public class Fcfs {
 
         //Response Time
         double aveResTime = 0;
-        outputText = outputText + "Reponse times: \n";
+        outputText = outputText + "Response times: \n";
         for(int j = 1; j <= outResponse.length; j++) {
             outputText = outputText + " Process " + j + ": " + outResponse[j-1] + "ns\n";
             aveResTime += outResponse[j-1];
         }
-        outputText = outputText + "Average reponse time: " + (aveResTime/outResponse.length) + " ns\n";
+        outputText = outputText + "Average response time: " + (aveResTime/outResponse.length) + " ns\n";
 
         return outputText;
     }

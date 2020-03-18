@@ -67,32 +67,35 @@ public class Sjf {
         outputText = outputText + "Throughput: " + tp + " processes/ns\n";
         
         //Output Waiting Times
-        outputText = outputText + "Waiting Times: \n";
+        outputText = outputText + "Waiting times:\n";
         double sumWait = 0;
         for (int i=0; i<outWait.length; i++) {
         	int waitTime = outWait[i]-a[i];
         	sumWait = sumWait + waitTime;
-        	outputText = outputText + " Process " + i + ": " + waitTime +  "ns\n";
+        	int processNum = i+1;
+        	outputText = outputText + " Process " + processNum + ": " + waitTime +  "ns\n";
         }
         outputText = outputText + "Average waiting time: " + sumWait/outWait.length +  "ns\n";
 
         //Output Turnaround Times
-        outputText = outputText + "Turnaround Times: \n";
+        outputText = outputText + "Turnaround times:\n";
         double sumTurn = 0;
         for (int i=0; i<outTurn.length; i++) {
         	int turnTime = outTurn[i]-a[i];
         	sumTurn = sumTurn + turnTime;
-        	outputText = outputText + " Process " + i + ": " + turnTime +  "ns\n";
+        	int processNum = i+1;
+        	outputText = outputText + " Process " + processNum + ": " + turnTime +  "ns\n";
         }
         outputText = outputText + "Average turnaround time: " + sumTurn/outTurn.length +  "ns\n";
 
         //Output Response Times
-        outputText = outputText + "Response Times: \n";
+        outputText = outputText + "Response times:\n";
         double sumRes = 0;
         for (int i=0; i<outResponse.length; i++) {
         	int resTime = outResponse[i]-a[i];
         	sumRes = sumRes + resTime;
-        	outputText = outputText + " Process " + i + ": " + resTime +  "ns\n";
+        	int processNum = i+1;
+        	outputText = outputText + " Process " + processNum + ": " + resTime +  "ns\n";
         }
         outputText = outputText + "Average response time: " + sumRes/outResponse.length +  "ns\n";
 
