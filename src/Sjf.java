@@ -20,8 +20,8 @@ public class Sjf {
         String outputText = "";
         
         //Output Arrangement
-        int timeElapsed=0;
-        int CPUbt=0;
+        double timeElapsed=0;
+        double CPUbt=0;
         int outWait[] = new int[a.length]; //stores when the process starts to run
         int outTurn[] = new int[a.length]; //stores when the process ends
         int outResponse[] = new int[a.length]; //stores when it first runs
@@ -31,7 +31,7 @@ public class Sjf {
         	HashMap<Integer, Integer> validProcesses = new HashMap<>(); //all unfinished processes that have already entered the system
         	for (int i=a.length-1; i>=0; i--) { //stores in reverse order (in case of tie, it will get the first to appear)
         		if(a[i]<=sec && !out.contains(i)) {
-        			validProcesses.put(b[i], i);
+        			validProcesses.put(i,b[i]);
         		}
         	}
 
@@ -58,7 +58,7 @@ public class Sjf {
         outputText = outputText + "Total CPU burst time: " + CPUbt + "ns\n";
         
         //Output CPU Utilization
-        int u = (CPUbt/timeElapsed)*100;
+        double u = (CPUbt/timeElapsed)*100;
         outputText = outputText + "CPU Utilization: " + u + "%\n";
         
         //Output Throughput
@@ -104,20 +104,18 @@ public class Sjf {
     
     public int minBT(HashMap<Integer, Integer> vp) {
     	if (!vp.isEmpty()) {
-	    	int min = (int) vp.keySet().toArray()[vp.size()-1];
-	    	int index=vp.size()-1;
-	    	if (vp.get(min) != null) {
-	    		index = vp.get(min);
-	    	}
-	    	for (int bt : vp.keySet()) {
-	    		if (bt<min) {
-	    			min=bt;
-	    			index=vp.get(bt);
-	    		}
-	    	}
-	    	return index;
+    		int index = (int) vp.keySet().toArray()[vp.size()-1];
+    		int min = vp.get(index);
+    		for (int i=vp.size()-1; i>=0;i--) {
+    			int tempIndex = (int) vp.keySet().toArray()[i];
+    			if (vp.get(tempIndex)<=min) {
+    				min=vp.get(tempIndex);
+    				index=tempIndex;
+    			}
+    		}
+    		return index;
     	}
-    	return 0;
+    	return -1;
     }
 
     public String solveAll() {

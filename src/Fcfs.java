@@ -145,7 +145,7 @@ public class Fcfs {
 
         //Wait Time
         double aveWaitTime = 0;
-        outputText = outputText + "Waiting times: \n";
+        outputText = outputText + "Waiting times:\n";
         for(int j = 1; j <= outWait.length; j++) {
             outputText = outputText + " Process " + j + ": " + outWait[j-1] + "ns\n";
             aveWaitTime += outWait[j-1];
@@ -154,7 +154,7 @@ public class Fcfs {
 
         //Turnaround Time
         double aveTurnTime = 0;
-        outputText = outputText + "Turnaround times: \n";
+        outputText = outputText + "Turnaround times:\n";
         for(int j = 1; j <= outTurn.length; j++) {
             outputText = outputText + " Process " + j + ": " + outTurn[j-1] + "ns\n";
             aveTurnTime += outTurn[j-1];
@@ -163,7 +163,7 @@ public class Fcfs {
 
         //Response Time
         double aveResTime = 0;
-        outputText = outputText + "Response times: \n";
+        outputText = outputText + "Response times:\n";
         for(int j = 1; j <= outResponse.length; j++) {
             outputText = outputText + " Process " + j + ": " + outResponse[j-1] + "ns\n";
             aveResTime += outResponse[j-1];

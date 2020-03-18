@@ -20,8 +20,8 @@ public class Srtf {
         String outputText = "";
         
         //Output Arrangement
-        int timeElapsed=0;
-        int CPUbt=0;
+        double timeElapsed=0;
+        double CPUbt=0;
         int outWait[] = new int[a.length]; //increments when process is valid but is not the currProcess
         for (int i=0; i<outWait.length; i++) { //initialize all wait times to 0
         	outWait[i]=0;
@@ -43,7 +43,7 @@ public class Srtf {
         	HashMap<Integer, Integer> validProcesses = new HashMap<>(); //all unfinished processes that have already entered the system
         	for (int i=a.length-1; i>=0; i--) { //stores in reverse order (in case of tie, it will get the first to appear)
         		if(a[i]<=sec && !out.contains(i)) {
-        			validProcesses.put(remainingBT[i], i);
+        			validProcesses.put(i,remainingBT[i]);
         		}
         	}
 
@@ -51,7 +51,7 @@ public class Srtf {
         	
         	//increment wait times
         	for (int i=0; i<outWait.length; i++) {
-        		if (validProcesses.containsValue(i) && i!=minIndex) {
+        		if (validProcesses.containsKey(i) && i!=minIndex) {
         			outWait[i]++;
         		}
         	}
@@ -105,7 +105,7 @@ public class Srtf {
         outputText = outputText + "Total CPU burst time: " + CPUbt + "ns\n";
         
         //Output CPU Utilization
-        int u = (CPUbt/timeElapsed)*100;
+        double u = (CPUbt/timeElapsed)*100;
         outputText = outputText + "CPU Utilization: " + u + "%\n";
         
        //Output Throughput
@@ -151,20 +151,18 @@ public class Srtf {
     
     public int minBT(HashMap<Integer, Integer> vp) {
     	if (!vp.isEmpty()) {
-	    	int min = (int) vp.keySet().toArray()[vp.size()-1];
-	    	int index=vp.size()-1;
-	    	if (vp.get(min) != null) {
-	    		index = vp.get(min);
-	    	}
-	    	for (int bt : vp.keySet()) {
-	    		if (bt<min) {
-	    			min=bt;
-	    			index=vp.get(bt);
-	    		}
-	    	}
-	    	return index;
+    		int index = (int) vp.keySet().toArray()[vp.size()-1];
+    		int min = vp.get(index);
+    		for (int i=vp.size()-1; i>=0;i--) {
+    			int tempIndex = (int) vp.keySet().toArray()[i];
+    			if (vp.get(tempIndex)<=min) {
+    				min=vp.get(tempIndex);
+    				index=tempIndex;
+    			}
+    		}
+    		return index;
     	}
-    	return 0;
+    	return -1;
     }
 
     public String solveAll() {
