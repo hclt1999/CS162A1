@@ -13,8 +13,10 @@ public class Main {
 
             int instruction = sc.nextInt(); //Number of Processes
             String type = sc.next(); //Algorithm Type
+            
+            int testCase = i+1;
 
-            outputs = outputs + instruction + " " + type + "\n";
+            outputs = outputs + testCase + " " + type + "\n";
             
             int Q=0;
             if(type.equals("RR")) {
