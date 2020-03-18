@@ -128,9 +128,7 @@ public class RoundRobin {
                     }
                     if(!waitList.isEmpty()) {
                         for(int j = 0; j <waitList.size(); j++) {
-                            if(!isProcessCalled[i]) {
-                                outWait[waitList.get(j)]++;
-                            }
+                            outWait[waitList.get(j)]++;
                         }
                     }
                     //Check for response
